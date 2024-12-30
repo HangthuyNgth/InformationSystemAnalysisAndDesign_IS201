@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cba0b791-7db5-40d9-8615-31549c9fb9aa">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="New Dataset 1" uuid="16c386be-b25d-4323-9d3f-7ded9283a7fc">
+		<queryString>
+			<![CDATA[select Day(NGAYLAP) as Date, month(NGAYLAP) as Month, sum(TIENVE) as SL from HOADON HD, VE V where HD.MAVE = V.MAVE group by NGAYLAP]]>
+		</queryString>
+		<field name="Date" class="java.lang.Integer"/>
+		<field name="Month" class="java.lang.Integer"/>
+		<field name="SL" class="java.lang.Integer"/>
+	</subDataset>
+	<queryString>
+		<![CDATA[select NGAYLAP, sum(TIENVE) as SL from HOADON HD, VE V where HD.MAVE = V.MAVE group by NGAYLAP]]>
+	</queryString>
+	<field name="NGAYLAP" class="java.sql.Date"/>
+	<field name="SL" class="java.lang.Integer"/>
+	<title>
+		<band height="85" splitType="Stretch">
+			<staticText>
+				<reportElement x="127" y="17" width="312" height="44" uuid="7bacd17a-ebff-452d-87bb-b5a7aa4f0156"/>
+				<textElement>
+					<font fontName="Tahoma" size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Thống Kê Doanh Thu 2023]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="482" splitType="Stretch">
+			<elementGroup/>
+			<barChart>
+				<chart>
+					<reportElement x="38" y="16" width="478" height="278" uuid="8d5f60c9-4f3e-48a4-a094-132c6f33d905"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="New Dataset 1" uuid="f69bb42b-68e6-44fe-8064-325784a679ee"/>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Thời gian"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{Date} +"-"+ $F{Month}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{SL}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</detail>
+</jasperReport>
